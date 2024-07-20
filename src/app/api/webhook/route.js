@@ -18,9 +18,9 @@ export async function POST(request) {
     }
 
     try {
-        const data = await request.json();
-        const { attachmentDownloadUrls } = data;
-        const hasAttachment = attachmentDownloadUrls && attachmentDownloadUrls.length > 0;
+        const body = await request.json();
+        console.log(body)
+        const hasAttachment = false;
         console.log(hasAttachment)
         const submission = hasAttachment
             ? await formsgInstance.crypto.decryptWithAttachments(formSecretKey, body.data)
