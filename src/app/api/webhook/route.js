@@ -12,6 +12,7 @@ export async function POST(request) {
         const signature = headers().get("X-Formsg-Signature");
         formsgInstance.webhooks.authenticate(signature, POST_URI)
     } catch (e) {
+        console.log("Invalid signature")
         return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
     }
 
@@ -28,6 +29,7 @@ export async function POST(request) {
         return NextResponse.json({ message: "Received Response" }, { status: 200 });
 
     } catch (e) {
+        console.log("Unable to decrypt")
         return NextResponse.json({ error: "Unable to decrypt" }, { status: 401 });
     }
 }
