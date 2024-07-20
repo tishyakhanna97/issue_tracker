@@ -13,6 +13,7 @@ export async function POST(request) {
         formsgInstance.webhooks.authenticate(signature, POST_URI)
     } catch (e) {
         console.log("Invalid signature")
+        console.log(e)
         return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
     }
 
@@ -20,6 +21,7 @@ export async function POST(request) {
         const data = await request.json();
         const { attachmentDownloadUrls } = data;
         const hasAttachment = attachmentDownloadUrls && attachmentDownloadUrls.length > 0;
+        console.log(hasAttachment)
         const submission = hasAttachment
             ? await formsgInstance.crypto.decryptWithAttachments(formSecretKey, body.data)
             : await formsgInstance.crypto.decrypt(formSecretKey, body.data)
@@ -29,6 +31,7 @@ export async function POST(request) {
         return NextResponse.json({ message: "Received Response" }, { status: 200 });
 
     } catch (e) {
+        console.log(e)
         console.log("Unable to decrypt")
         return NextResponse.json({ error: "Unable to decrypt" }, { status: 401 });
     }
